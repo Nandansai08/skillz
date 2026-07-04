@@ -1,51 +1,86 @@
 ---
 name: technical-blog-post
 description: >
-  Use when writing a technical blog post or engineering article — structuring
-  hook, problem, journey, takeaway; cutting throat-clearing; making it worth
-  a stranger's ten minutes. Triggers: "write a blog post about", "engineering
-  blog draft", "turn this project into a post", "review my article",
-  "postmortem writeup for the blog".
+  Use when writing a technical blog post or engineering article —
+  structuring hook, problem, journey, takeaway; cutting throat-clearing;
+  making it worth a stranger's ten minutes. Triggers: "write a blog post
+  about", "engineering blog draft", "turn this project into a post",
+  "review my article", "postmortem writeup for the blog". NOT for
+  reference documentation (see api-documentation) or the sentence-level
+  polish pass (see natural-prose-editing — run it after structure
+  settles).
 ---
 
 # Technical Blog Post
 
-## When to use this skill
+## Overview
+
+A post is a takeaway a reader could dispute, delivered through an honest journey with receipts. Chronology is not structure, evidence is the genre's currency, and the dead ends — told briefly — are the most instructive and trust-building material you have.
+
+## When to Use
+
 - Turning a project, incident, migration, or investigation into a public/internal article.
 - Reviewing a draft that feels flat or unfocused.
-- NOT for reference documentation (`api-documentation`) or the prose-polish pass itself (`natural-prose-editing` — run it after this skill settles the structure).
+
+**When NOT to use:**
+- Reference docs — `api-documentation`.
+- Sentence-level de-flattening — `natural-prose-editing`, after this skill settles structure.
 
 ## Prerequisites
+
 - The actual experience to write about, with its artifacts: numbers, graphs, failed attempts, code. Posts assembled from memory read like posts assembled from memory.
 
-## Workflow
+## The Workflow
 
-1. **Write the one-sentence takeaway first, and make it earn disagreement.** "What will a reader know or do differently after this?" — "We cut p99 latency 8× by removing a cache" is a post; "caching is important" is not. If the takeaway is something nobody would dispute, there's no post yet — find the surprising part (the cache REMOVAL is the hook precisely because it inverts the expected advice).
+1. **Write the one-sentence takeaway first, and make it earn disagreement.** "What will a reader know or do differently?" — "We cut p99 latency 8× by removing a cache" is a post; "caching is important" is not. If nobody would dispute the takeaway, there's no post yet — find the surprising part.
 
-2. **Open with the payoff, not the biography.** First paragraph: the problem's stakes and the destination — "Our search p99 was 4 seconds. This post covers how it became 300ms, and why the fix was deleting our caching layer." Readers grant ~15 seconds before bouncing; the company-history and team-intro paragraphs spend them on nothing. (Context that matters gets woven in where it becomes relevant.)
+2. **Open with the payoff, not the biography.** First paragraph: stakes and destination — "Our search p99 was 4 seconds. This post covers how it became 300ms, and why the fix was deleting our caching layer." Readers grant ~15 seconds; company-history paragraphs spend them on nothing.
 
-3. **Structure as the journey, honestly including the dead ends.** The narrative spine that works for engineering posts: symptom → investigation → wrong turn(s) → the realization → the fix → the numbers → what transfers. The failed attempts are not filler — they're the most instructive part (readers are standing at the same forks) and the most trust-building (nobody believes the straight-line version). One or two dead ends, told briefly, each with why it seemed right and what disproved it.
+3. **Structure as the journey, honestly including the dead ends.** The spine: symptom → investigation → wrong turn(s) → realization → fix → numbers → what transfers. The failed attempts are not filler — readers stand at the same forks, and nobody believes the straight-line version. One or two dead ends, briefly, each with why it seemed right and what disproved it.
 
-4. **Show the evidence: numbers, graphs, code — each pulling weight.** Before/after metrics with axes and units (a graph with no y-axis scale is an illustration, not evidence); code snippets trimmed to the interesting delta (10 lines with the crucial part highlighted beats 80 lines of context — link the full version); the actual error message, the actual flame graph. Every artifact answers "how do you know?"
+4. **Show the evidence: numbers, graphs, code — each pulling weight.** Before/after metrics with axes and units (a graph with no y-axis is an illustration, not evidence); code trimmed to the interesting delta (10 lines with the crucial part highlighted beats 80 of context); the actual error, the actual flame graph. Every artifact answers "how do you know?"
 
-5. **Write for one named reader.** Pick them: "backend engineer who runs Postgres but hasn't touched logical replication." That choice settles every what-do-I-explain decision — you explain replication slots (they haven't touched them) but not SQL (they run Postgres). Posts pitched at everyone explain everything, bore everyone, and run 4,000 words.
+5. **Write for one named reader.** "Backend engineer who runs Postgres but hasn't touched logical replication" — that choice settles every explain-or-assume decision. Posts pitched at everyone explain everything, bore everyone, and run 4,000 words.
 
-6. **Cut the ritual sections:** the "in this post we will..." roadmap (just start), the recap conclusion that re-summarizes what the reader just read (end on the transferable lesson or the open question instead), and hedging preambles ("this may not apply to every situation..." — state the applicability conditions once, concretely). Target: most posts land at 800–1,500 words; past 2,000, either split it or you're padding.
+6. **Cut the ritual sections:** the "in this post we will..." roadmap (just start), the recap conclusion (end on the transferable lesson or the open question), hedging preambles (state applicability conditions once, concretely). Target 800–1,500 words; past 2,000, split or you're padding.
 
-7. **Run the two-pass review:** technical accuracy by someone who knows the domain (would they cringe? every simplification checked against "is this false or just simplified?"), then readability by someone matching the step-5 reader (where did they skim? that's where it drags). Then the `natural-prose-editing` pass for the sentence-level flatness, and title last — specific and honest ("How a 40-character regex took down our API" beats "Our Journey with Regular Expressions"), because the title is the only part most people will ever read.
+7. **Run the two-pass review, then polish and title:** technical accuracy by someone who knows the domain (every simplification checked against "is this false or just simplified?"), readability by someone matching the step-5 reader (where they skim is where it drags). Then `natural-prose-editing`, and the title last — specific and honest ("How a 40-character regex took down our API"), because the title is the only part most people will ever read.
 
-## Common pitfalls
-- Writing the journey in the order you lived it, including the three boring weeks — chronology is not structure; the narrative spine (step 3) compresses time ruthlessly around the turns.
-- The humble-brag postmortem that sands off the actual mistake ("we identified an optimization opportunity" for "we shipped a config that took the site down") — the honest version is the one that gets read, shared, and believed.
-- Evidence-free claims ("this dramatically improved performance") in a genre where the whole currency is receipts. Numbers or it didn't happen.
-- Explaining your stack's basics to readers you defined as already knowing them — the step-5 contract violated, 800 words wasted.
-- Code dumps: whole files pasted where the delta was 6 lines. The reader's eyes bounce off; the 6 lines with one highlight would have landed.
-- Publishing the first draft's structure: draft 1 discovers what the post is about (the takeaway often emerges at the END of draft 1 — move it to the top and rebuild).
+## Common Rationalizations
+
+| Excuse | Why it doesn't hold |
+|---|---|
+| "I'll write it in the order it happened — authentic" | Chronology includes the three boring weeks and buries the takeaway at paragraph 19 (the example's draft 1, exactly). The spine compresses time around the turns; authenticity lives in the dead ends, not the calendar. |
+| "Cut the failed attempts — they make us look bad" | The dead ends are the most instructive part (readers face the same forks) and the most credible (nobody believes straight lines). Sanding them off produces the humble-brag nobody shares. |
+| "Everyone knows the performance improved — numbers are fussy" | Evidence is the genre's currency; 'dramatically improved' is a claim, '4s → 300ms, graph attached' is a post. Receipts or it reads as marketing. |
+| "Write for everyone — wider audience" | Everyone-posts explain everything and land with no one. The named reader converts each explain-or-skip decision from debate into lookup. |
+| "The full 80-line handler gives important context" | Eyes bounce off code walls; the 8-line delta with one highlight lands. Link the full version for the three readers who want it. |
+| "First draft's structure is fine — just needs polish" | Draft 1 DISCOVERS the takeaway, usually at its end. Publishing that structure buries the lede by construction; move it to the top and rebuild — then polish. |
+
+## Red Flags
+
+- The takeaway appearing for the first time in the final third.
+- An opening paragraph about the company or team.
+- Zero dead ends in a debugging/migration story.
+- Graphs without axes; claims without numbers.
+- "In this post we will..." / a conclusion that re-summarizes.
+- 3,000+ words with no named reader anywhere in the process.
+
+## Verification
+
+- [ ] The disputable takeaway written before drafting — quoted in the draft doc.
+- [ ] Opening paragraph carries stakes + destination — no biography.
+- [ ] ≥1 dead end included with its why-it-seemed-right and its disproof.
+- [ ] Every quantitative claim has its artifact (graph with axes, output, diff) — inline.
+- [ ] Named reader stated; explain/assume decisions consistent with them.
+- [ ] Both review passes done (accuracy + target-reader readability) — reviewers named; word count in range.
 
 ## Example
-Raw material: a two-week incident investigation ending in "the cache was the bottleneck." Draft 1 was chronological: 2,600 words, takeaway buried in paragraph 19. Rework per the spine: takeaway extracted and promoted ("the cache we added for performance was costing us 3.7s of p99"); opener rewritten to stakes+destination; the two dead ends kept (blaming the DB — disproven by the trace screenshot included; blaming GC — disproven by the pause histogram) at a paragraph each; the realization scene (the flame graph showing lock contention *in the cache client*) given the post's only full-width image; before/after latency graph with marked deploy line; 60-line handler cut to the 8-line diff of the removal. Named reader: "service owner who has added a cache under pressure" — so cache-stampede basics explained in one clause, Go profiling not explained at all. Final: 1,340 words. Accuracy pass caught one false simplification ("Redis is single-threaded" → scoped to the command-execution path). It became the team's most-shared post, and the title that shipped — "The cache that cost us 3.7 seconds" — was rewrite #6.
+
+Raw material: a two-week incident investigation ending in "the cache was the bottleneck." Draft 1 was chronological: 2,600 words, takeaway buried in paragraph 19. Rework per the spine: takeaway extracted and promoted ("the cache we added for performance was costing us 3.7s of p99"); opener rewritten to stakes+destination; the two dead ends kept (blaming the DB — disproven by the trace screenshot included; blaming GC — disproven by the pause histogram) at a paragraph each; the realization scene (the flame graph showing lock contention *in the cache client*) given the post's only full-width image; before/after latency graph with marked deploy line; 60-line handler cut to the 8-line diff. Named reader: "service owner who has added a cache under pressure" — cache-stampede basics in one clause, Go profiling not explained at all. Final: 1,340 words. Accuracy pass caught one false simplification ("Redis is single-threaded" → scoped to the command-execution path). It became the team's most-shared post; the title that shipped — "The cache that cost us 3.7 seconds" — was rewrite #6.
 
 ## Related skills
+
 - `natural-prose-editing` — the sentence-level pass after structure settles.
 - `blameless-postmortem` — incident writeups this genre often grows from.
 - `stakeholder-update` — the internal, compressed sibling.
