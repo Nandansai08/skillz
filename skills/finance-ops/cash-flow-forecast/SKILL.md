@@ -4,49 +4,83 @@ description: >
   Use when forecasting cash — 13-week direct forecasts, scenario cases,
   runway math, and the timing realities (collections, payroll) that P&L
   views hide. Triggers: "how much runway", "13-week cash flow", "will we
-  make payroll", "cash forecast", "when do we run out", "scenario planning
-  for cash".
+  make payroll", "cash forecast", "when do we run out", "scenario
+  planning for cash". NOT for long-range P&L modeling (see
+  financial-model-review for auditing those) — cash is a different
+  animal from profit.
 ---
 
 # Cash Flow Forecast
 
-## When to use this skill
+## Overview
+
+Profit is an opinion; cash is a fact with a date — the profitable company that dies in week 7 because three customers pay in week 9 is this skill's founding case. The 13-week direct forecast at weekly grain, collections modeled from behavior not invoice terms, commitments sized against the downside case, and triggers pre-agreed before the bad week: that's the discipline.
+
+## When to Use
+
 - Runway questions with real stakes (fundraise timing, hiring pace, survival math).
 - Building the rolling short-term cash discipline any finite-cash company needs.
-- NOT for long-range P&L modeling (`financial-model-review` audits those) — cash is a different animal from profit, and conflating them is this domain's original sin.
+
+**When NOT to use:**
+- Long-range P&L models — different animal; `financial-model-review` audits those.
 
 ## Prerequisites
-- Bank-account truth as the anchor (forecasts start from actual balances, not book balances), plus AR/AP agings, payroll schedule, and the contracts calendar (renewals, debt payments — `invoice-expense-workflow`'s calendar feeds this).
 
-## Workflow
+- Bank-account truth as the anchor, plus AR/AP agings, payroll schedule, and the contracts calendar (`invoice-expense-workflow`'s renewals feed).
 
-1. **Build the 13-week direct forecast as the workhorse:** weekly columns (13 weeks ≈ one quarter — long enough to see trouble, short enough to be forecastable); rows = actual cash movements, not P&L lines — collections (not revenue), payroll by actual paydates, AP payments by when you'll actually pay, debt service, taxes (the quarterly lumps that ambush), one-times. Direct method (money in, money out) beats indirect (profit + adjustments) at this range because the QUESTION is timing, and timing is exactly what the direct view shows: the profitable company that dies in week 7 because three customers pay in week 9 is the case this forecast exists to catch.
+## The Workflow
 
-2. **Forecast collections from behavior, not invoice terms:** actual DSO by customer/segment (the net-30 base that pays in 47 — use the 47), the big-customer watch (any customer >10% of collections gets forecast individually, by their observed habits), seasonality of payments (year-end AP freezes at your enterprise customers), and pipeline revenue entering ONLY at closed + realistic collection lag. The single largest forecast error in most 13-weeks is optimistic collections — score your own accuracy (step 6) and haircut accordingly.
+1. **Build the 13-week direct forecast as the workhorse:** weekly columns; rows = actual cash movements, not P&L lines — collections (not revenue), payroll by paydates, AP by when you'll actually pay, debt service, tax lumps, one-times. Direct method because the QUESTION is timing, and timing is what the direct view shows. Weekly grain is non-negotiable: the month that nets positive can contain nine insolvent days between payroll (week 2) and the big collection (week 4).
 
-3. **Time the outflows with their real calendar:** payroll on paydates (the two-payroll month vs three-payroll month difference matters at the weekly grain), rent/debt on contract dates, the tax lumps, annual renewals from the contracts calendar, and the payment-timing LEVERS pre-identified (which AP can flex two weeks without damage, which vendors' goodwill you'd spend — knowing the levers BEFORE the tight week is the difference between managing cash and panicking at it; `vendor-evaluation`'s relationship capital is what these levers draw on).
+2. **Forecast collections from behavior, not invoice terms:** actual DSO by customer/segment (the net-30 base that pays at 47 — use 47), big customers (>10% of collections) forecast individually by their observed habits, payment seasonality (year-end AP freezes), pipeline revenue entering ONLY at closed + realistic lag. Optimistic collections are the single largest 13-week error — score yourself (step 6) and haircut.
 
-4. **Run three scenarios with named assumptions, not a blessed number:** base (current trajectory, honest collections), downside (the named risks land: the big renewal slips, collections stretch 2 weeks, the pipeline's biggest deal pushes a quarter), upside (mostly for capacity decisions). Each scenario's assumptions LISTED (the delta between scenarios is 4–6 named events, not a mood dial at ±15%); runway and minimum-cash-week computed per scenario. The downside case is the decision-grade one: commitments (hires, leases, contracts) get sized against DOWNSIDE cash, because commitments are made once and survived weekly.
+3. **Time the outflows with their real calendar:** payroll on paydates (two-payroll vs three-payroll months matter at weekly grain), rent/debt on contract dates, tax lumps placed, renewals from the calendar — and the payment-timing LEVERS pre-identified (which AP can flex two weeks without damage, whose goodwill you'd spend). Knowing the levers BEFORE the tight week is the difference between managing cash and panicking at it.
 
-5. **Define the trigger ladder — the forecast's alarm wiring:** minimum acceptable cash (payroll + a buffer — the floor below which nothing goes), and pre-agreed actions at thresholds crossed IN THE FORECAST (not in the bank account — the forecast's whole point is acting on week 9's problem in week 2): e.g., downside shows <8 weeks runway → hiring freeze + collections sprint; <13 weeks in base → financing conversations start (fundraises take 3–6 months; the trigger must lead the need by that much — `slo-definition`'s error-budget-policy logic, applied to survival). Triggers agreed with leadership NOW, because threshold-crossing weeks are the worst weeks for calm decisions.
+4. **Run three scenarios with named assumptions, not a blessed number:** base, downside (the named risks land: the renewal slips, DSO stretches, the big deal pushes), upside. Each scenario's delta = 4–6 named events, not a mood dial. Runway and minimum-cash-week per scenario — and commitments (hires, leases) sized against DOWNSIDE cash, because commitments are made once and survived weekly.
 
-6. **Reforecast weekly against actuals, and score yourself:** roll the window (drop the closed week, add week 14), reconcile forecast-vs-actual per line, and track the accuracy trend — collections forecast error especially (the systematic 10% optimism, once measured, becomes a haircut — `budget-variance-analysis` step 7's recurring-pattern rule at weekly cadence). The 20-minute weekly ritual is the practice; a 13-week built once for a board meeting is a photograph, not a forecast.
+5. **Define the trigger ladder — the forecast's alarm wiring:** minimum acceptable cash (payroll + buffer), and pre-agreed actions at thresholds crossed IN THE FORECAST, not the bank account (the forecast's whole point is acting on week 9's problem in week 2): downside <8 weeks → hiring freeze + collections sprint; base <13 weeks → financing conversations start (raises take 3–6 months; the trigger leads the need by that much). Agreed with leadership NOW — threshold-crossing weeks are the worst weeks for calm decisions.
 
-7. **Report the story, not the spreadsheet:** the weekly cash note = current balance, minimum-cash week and its number (the forecast's headline: WHEN is the tightest week and how tight), runway per scenario, trigger status, and the deltas from last week with causes ("min-week moved from wk9 to wk7: Acme's payment slipped — collections call scheduled"). One screen (`stakeholder-update` discipline); the full model attached for the one reader who wants it.
+6. **Reforecast weekly against actuals, and score yourself:** roll the window, reconcile per line, track accuracy — collections error especially (the systematic 8–10% optimism, once measured, becomes a haircut). The 20-minute weekly ritual IS the practice; a 13-week built once for a board meeting is a photograph.
 
-## Common pitfalls
-- Profit-cash conflation: the P&L says fine, the bank account disagrees — revenue isn't collections, expenses aren't payments, and growth EATS cash through working capital even when profitable (the faster you grow, the wider the AR gap — the growth-kills-profitable-company mechanism, and it's a timing story only the direct view shows).
-- Invoice-term collections: forecasting net-30 as day-30 arrival while your actual DSO is 47 — the systematic optimism that makes week-9 surprises (step 2's behavioral basis).
-- Monthly grain hiding weekly death: the month nets positive; payroll is week 2 and the big collection is week 4 — fine at monthly resolution, insolvent for nine days in the middle. Weekly grain for the 13-week, non-negotiable.
-- The single blessed scenario: one forecast, implicitly the optimistic one, commitments sized against it — the downside case (step 4) is what commitments must survive.
-- Triggers reverse-engineered in the bad week: deciding hiring-freeze thresholds WHILE below them — the pre-agreement (step 5) is the entire value; thresholds negotiated under duress are theater.
-- Forecast-as-artifact: built for the board deck, never reconciled, wheeled out quarterly — unscored forecasts stay wrong the same way forever (step 6's accuracy loop is what makes month three's forecast better than month one's).
+7. **Report the story, not the spreadsheet:** the weekly note = current balance, minimum-cash week and its number (the headline: WHEN is the tightest week, how tight), runway per scenario, trigger status, deltas from last week with causes. One screen (`stakeholder-update` discipline); the model attached for the one reader who wants it.
+
+## Common Rationalizations
+
+| Excuse | Why it doesn't hold |
+|---|---|
+| "The P&L shows profit — cash will follow" | Revenue isn't collections, expenses aren't payments, and growth EATS cash through the AR gap even when profitable. The direct view exists because 'will follow' has a date, and the date can be after payroll. |
+| "Invoice terms are net-30 — model collections at day 30" | Your actual DSO is 47, and the 17-day systematic optimism is the genre's biggest error. Behavioral basis, per major customer, with the measured haircut. |
+| "Monthly granularity is enough for a quarter view" | The month nets fine around nine insolvent mid-month days. Weekly grain is where payroll collisions and collection gaps become visible — which is the forecast's entire job. |
+| "One realistic scenario beats scenario theater" | The single scenario is implicitly the optimistic one, and commitments get sized against it. Downside-case sizing (step 4) is what keeps the hires survivable when the renewal slips. |
+| "We'll decide on triggers if things get tight" | Deciding thresholds while below them is duress negotiation. The pre-agreed ladder converts the bad week into execution; improvised, it's a standoff. |
+| "We built the 13-week for the board — done" | Unreconciled forecasts stay wrong the same way forever. The weekly reforecast-and-score loop is what made month three's forecast trustworthy — and what the example's investor was actually buying. |
+
+## Red Flags
+
+- Runway quoted from the P&L model, no direct forecast anywhere.
+- Collections modeled at invoice terms.
+- Monthly columns on a survival question.
+- One scenario; commitments sized against it.
+- No trigger ladder; financing conversations starting inside the need window.
+- Forecast never reconciled; accuracy unknown.
+
+## Verification
+
+- [ ] 13-week direct forecast live at weekly grain, anchored to bank balances — file linked.
+- [ ] Collections on behavioral DSO with big customers individual — basis shown.
+- [ ] Outflow calendar complete (paydates, lumps, renewals); flex levers pre-listed.
+- [ ] Three scenarios with named assumption deltas; commitments sized against downside — noted.
+- [ ] Trigger ladder signed by leadership with lead times matching raise timelines — doc linked.
+- [ ] Weekly reforecast running; accuracy log with haircuts applied — history shown.
+- [ ] Weekly one-screen note going out with min-cash week as the headline.
 
 ## Example
-Series-A startup, 14 months of book runway "per the model," CFO builds the 13-week anyway. Week one's build surfaces three things the monthly model hid: a two-payroll vs three-payroll month collision with the office deposit (min-cash week 6, uncomfortably thin); collections reality — the two enterprise customers (34% of AR) actually pay at day 52, not net-30 (behavioral basis adopted, forecast re-cut); and the tax lump nobody had weekly-placed. Scenarios: downside (bigger renewal slips a quarter + DSO stretches) showed 7 weeks to minimum cash — against which the planned 4 hires got resequenced to 2-now-2-later (sized against downside, per step 4). Trigger ladder agreed: base-runway <6 months starts the bridge conversation. Week 5's reforecast fired a real signal: Acme's payment slipped again, min-week moved from 6 to 5 — the pre-identified AP lever (two vendors, two weeks, relationship-safe) plus a collections call bridged it without drama, BECAUSE the levers were pre-mapped. The accuracy log's month-two finding: collections systematically 8% optimistic → haircut applied. When the fundraise started (trigger-led, months before the need), the 13-week practice itself became diligence material — the investor's comment: "companies that can show me this usually survive."
+
+Series-A startup, 14 months of book runway "per the model," CFO builds the 13-week anyway. Week one's build surfaces three things the monthly model hid: a two-payroll vs three-payroll collision with the office deposit (min-cash week 6, uncomfortably thin); collections reality — the two enterprise customers (34% of AR) pay at day 52, not net-30; and the tax lump nobody had weekly-placed. Scenarios: downside (renewal slips + DSO stretches) showed 7 weeks to minimum — against which the planned 4 hires got resequenced to 2-now-2-later. Trigger ladder agreed: base <6 months starts the bridge conversation. Week 5's reforecast fired a real signal: Acme slipped again, min-week moved 6 → 5 — the pre-identified AP lever plus a collections call bridged it without drama, BECAUSE the levers were pre-mapped. Month-two accuracy finding: collections 8% optimistic → haircut applied. When the fundraise started (trigger-led, months before the need), the 13-week practice itself became diligence material — the investor's comment: "companies that can show me this usually survive."
 
 ## Related skills
+
 - `budget-variance-analysis` — the accrual-side sibling; this is the cash truth.
-- `financial-model-review` — auditing the long-range model this short-range one disciplines.
+- `financial-model-review` — auditing the long-range model this disciplines.
 - `invoice-expense-workflow` — the AP/renewals calendar feeding the outflows.
 - `capacity-planning` — the same headroom-and-triggers thinking, infrastructure edition.

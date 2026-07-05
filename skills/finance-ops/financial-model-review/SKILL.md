@@ -5,52 +5,85 @@ description: >
   broken links, circular logic, and heroic assumptions; testing whether
   outputs survive sensitivity. Triggers: "review this model", "check the
   spreadsheet before the board sees it", "does this model hold up",
-  "stress test these projections", "the numbers feel too good".
+  "stress test these projections", "the numbers feel too good". NOT for
+  building the model — this is the adversarial pass.
 ---
 
 # Financial Model Review
 
-## When to use this skill
-- A model (budget, forecast, deal case, fundraise deck's engine) is about to drive a real decision and needs an audit.
+## Overview
+
+Models lie two ways: mechanically (the SUM stopping at row 40, the plug typed to make Q3 tie out) and rhetorically (growth at 2.7× trailing actuals, justified nowhere). The review hunts both — and its decision-grade output is the sensitivity pass: which single assumption flips the verdict, and does the model know?
+
+## When to Use
+
+- A model (budget, forecast, deal case, fundraise engine) is about to drive a real decision.
 - Two models of the same business disagree and someone must arbitrate.
-- NOT for building the model — this is the adversarial pass; and the spreadsheet mechanics generalize (the same review shape applies to a Python model, where `coverage-analysis`-style discipline adds tests).
+
+**When NOT to use:**
+- Building the model — this is the adversarial pass on one that exists.
 
 ## Prerequisites
-- The live model file (not a PDF of it — you audit formulas, not printouts), its stated purpose, and which outputs actually feed the decision.
 
-## Workflow
+- The live model file (not a PDF — you audit formulas, not printouts), its purpose, and which outputs feed the decision.
 
-1. **Map the architecture before touching any number:** inputs/assumptions → calculations → outputs — are they SEPARATED (tabs or clearly-zoned areas), or is the model a lasagna of all three? Trace the 2–3 decision-driving outputs backward to their assumption roots (trace precedents / F5-Special tooling): the paths you walk are the audit's spine; a model whose outputs can't be traced in an hour is failing the review at the architecture layer regardless of its arithmetic.
+## The Workflow
 
-2. **Hunt hardcodes — the spreadsheet's most reliable pathology:** numbers typed inside formulas (`=B4*1.2*0.85` — what is 0.85, who approved it, and why doesn't it live in the assumptions tab where it can be seen and changed?); the mechanical sweep: formula-auditing tools or a pass flagging constants inside formulas, plus the visual scan for the classic tell — a row of formulas with one hand-overridden cell mid-range (the "plug" someone typed to make Q3 tie out, which now silently disconnects Q3 from every assumption). Every hardcode found is either promoted to a labeled assumption or explained in a comment; unexplained plugs are findings.
+1. **Map the architecture before touching any number:** inputs → calculations → outputs — separated, or lasagna? Trace the 2–3 decision-driving outputs backward to their assumption roots; the paths you walk are the audit's spine. A model whose outputs can't be traced in an hour fails at the architecture layer regardless of its arithmetic.
 
-3. **Check the model's structural integrity:**
-   - **Circularity:** intentional (interest-on-average-debt) — documented with iteration settings noted — vs accidental (a reference loop someone silenced by toggling iterative calc). Accidental circularity is a correctness bug wearing a settings band-aid.
-   - **Cross-sheet and external links:** broken references, links to files on someone's desktop, ranges that didn't extend when rows were added (the SUM that stops at row 40 of a 60-row list — the off-by-a-range error is spreadsheet-land's silent classic).
-   - **Consistency of time:** every column the same period convention, no month/quarter splices; flags for period boundaries (the model mixing calendar and fiscal years mid-row).
-   - **Balance checks:** does the balance sheet balance BY FORMULA with a visible check cell, do cash flows tie to cash balances — a model without built-in check cells expects its reader to supply the paranoia it lacks.
+2. **Hunt hardcodes — the spreadsheet's most reliable pathology:** numbers typed inside formulas (`=B4*1.2*0.85` — what is 0.85, who approved it?); the mechanical sweep plus the visual scan for the classic tell — a formula row with one hand-overridden cell mid-range (the plug typed to make a period tie out, silently disconnecting it from every assumption). Every hardcode: promoted to a labeled assumption or explained; unexplained plugs are findings. Three plugs clustering in one section means the section's LOGIC is wrong, not that three cells need promoting.
 
-4. **Audit the assumptions against evidence — where models actually lie:** each key input gets the interrogation: source? (actuals-derived, market data, or wish — `source-credibility-check` for the external ones); consistent with history? (the model growing 8%/month when the last 12 actuals averaged 3% owes an explanation named in the model, not in the meeting); internally consistent? (revenue tripling while headcount is flat and CAC constant — the assumptions contradict each other; growth costs something, `unit-economics-model`'s CAC-saturation reality). The hockey stick isn't automatically wrong — the undischarged burden of explaining it is.
+3. **Check structural integrity:**
+   - **Circularity:** intentional (interest-on-average-debt, documented with iteration settings) vs accidental (a loop silenced by toggling iterative calc — a correctness bug in a settings band-aid).
+   - **Links and ranges:** broken references, desktop-file links, ranges that didn't extend (the SUM stopping at row 40 of a 60-row list — spreadsheet-land's silent classic).
+   - **Time consistency:** one period convention, no calendar/fiscal splices.
+   - **Balance checks:** the balance sheet balances BY FORMULA with a visible check cell; cash flows tie to cash. A model without check cells expects its reader to supply the paranoia it lacks.
 
-5. **Run the sensitivity pass — the review's decision-grade output:** flex the 3–5 assumptions the step-1 trace showed carry the outputs (±20%, and to their plausible-worst from history): which single assumption flips the decision? (that one gets the scrutiny and the monitoring); does the model break mechanically under stress (negative cash the formulas ignore, growth assumptions that quietly imply >100% market share by year 4)? A model whose verdict survives sensitivity is information; one whose verdict dies at −10% on one input is a bet on that input — and the review's job is saying so in exactly those words.
+4. **Audit the assumptions against evidence — where models actually lie:** each key input: source? (actuals, market data, or wish — `source-credibility-check` for the external ones); consistent with history? (growth at 2.7× trailing actuals owes an explanation IN the model); internally consistent? (revenue tripling on flat headcount and constant CAC — the assumptions contradict each other; growth costs something). The hockey stick isn't automatically wrong — the undischarged burden of explaining it is.
 
-6. **Reconcile against reality anchors:** back-test — feed the model last year's inputs and compare its outputs to what actually happened (the model that can't retrodict shouldn't be trusted to predict); tie current-period model figures to the accounting actuals (`budget-variance-analysis`'s basis-check cousin); and sanity-scale the outputs (implied market share, revenue per employee, margins vs any comparable — the outside view that catches what cell-level auditing can't).
+5. **Run the sensitivity pass — the review's decision-grade output:** flex the 3–5 assumptions the step-1 trace showed carry the outputs (±20%, and to plausible-worst from history): which single assumption flips the decision? Does the model break mechanically under stress (negative cash the formulas ignore, implied >100% market share)? A verdict that dies at −10% on one input is a bet on that input — the review's job is saying so in exactly those words. And the assumption too scary to flex is the review's headline, not its exclusion.
 
-7. **Report findings by severity with the fix-path, and leave the model better:** blockers (errors changing the decision: the broken range, the contradictory assumptions), material (hardcodes on load-bearing paths, missing sensitivity), hygiene (structure, labeling); plus the two artifacts the model should keep: a check-cell dashboard (all balance/tie checks visible in one place) and a change-log-plus-version discipline going forward ("board_v3_FINAL_v2 (1).xlsx" is a filename and a warning). The review that only produces a memo fixed nothing; the one that leaves check cells behind keeps auditing after you've left.
+6. **Reconcile against reality anchors:** back-test — feed last year's inputs, compare outputs to what happened (a model that can't retrodict shouldn't predict); tie current-period figures to accounting actuals; sanity-scale outputs (implied market share, revenue per employee vs comparables — the outside view that catches what cell-auditing can't).
 
-## Common pitfalls
-- Auditing outputs for plausibility while skipping formula mechanics: the deck's numbers "look reasonable" — and the SUM stopping at row 40 is why. Plausible and correct are independent properties; check both.
-- The reviewer captured by the model's frame: interrogating cell logic while accepting the architecture's buried premise (the TAM tab everyone scrolls past). Step 4's outside-view questions attack premises, not just formulas.
-- Hardcode whack-a-mole without asking why: plugs cluster where the model fights its author — three plugs in the same section mean the section's logic is wrong, not that three cells need promoting.
-- Sensitivity theater: the tornado chart flexing trivial inputs while the load-bearing assumption (retention, win-rate) sits untouched because flexing it is "unrealistic" — the assumption too scary to flex is the review's headline (step 5).
-- Politeness pricing: material findings softened for the model's owner until the memo reads as hygiene notes — the board then decides on the unflagged blocker. Severity-honest or the review is complicity (`code-review-checklist`'s severity discipline, money edition).
-- One-time review of a living artifact: the audited model mutates the following week, unversioned — the check-cell dashboard and change log (step 7) are what survive.
+7. **Report by severity with fix-paths, and leave the model better:** blockers (errors changing the decision) / material (hardcodes on load-bearing paths, missing sensitivity) / hygiene. Leave behind: a check-cell dashboard and version discipline ("board_v3_FINAL_v2 (1).xlsx" is a filename and a warning). The review that only produces a memo fixed nothing; check cells keep auditing after you've left.
+
+## Common Rationalizations
+
+| Excuse | Why it doesn't hold |
+|---|---|
+| "The outputs look reasonable — the model's probably fine" | Plausible and correct are independent: the example's revenue was understated $400k by a range bug and 31% overstated by an override — netting to 'reasonable.' Mechanics first, always. |
+| "That 0.85 is just a standard haircut everyone uses" | Then label it as an assumption with its source. Unlabeled in-formula constants are invisible to sensitivity, review, and the next owner — the definition of a buried decision. |
+| "The plug makes Q3 tie to actuals — that's calibration" | It silently disconnects Q3 from every assumption; the model now agrees with the past by fiat and predicts nothing. Plugs are findings, and clustered plugs indict the section's logic. |
+| "Flexing retention that far is unrealistic — skip it" | The assumption too scary to flex is precisely the one the decision rides on. Refusing the flex doesn't make the exposure smaller; it makes it invisible (step 5's headline rule). |
+| "The founder knows the growth rate is achievable" | Conviction isn't a source. 2.7× trailing actuals gets explained in the model or discounted by the first analyst who checks — as the example's was about to be. |
+| "Softening the findings keeps the relationship workable" | The board then decides on the unflagged blocker, and the relationship meets the consequence anyway. Severity-honest or the review is complicity. |
+
+## Red Flags
+
+- Review conducted on a PDF of the model.
+- Formulas with embedded constants on decision-driving paths.
+- Hand-overridden cells mid-formula-range.
+- No check cells anywhere; iterative calc on with nobody knowing why.
+- Growth assumptions unexplained against trailing actuals.
+- No back-test; no sensitivity table; version chaos in the filename.
+
+## Verification
+
+- [ ] Output-to-assumption traces documented for the decision-driving outputs.
+- [ ] Hardcode sweep results: count, dispositions (promoted/explained), plugs flagged — list attached.
+- [ ] Structural checks passed: ranges, links, time, balance check-cells — noted per item.
+- [ ] Assumption audit table: source + history-consistency + internal-consistency per key input.
+- [ ] Sensitivity run: the verdict-flipping assumption named; mechanical breaks under stress noted.
+- [ ] Back-test and actuals-tie results attached.
+- [ ] Check-cell dashboard + versioning left in the model — shown.
 
 ## Example
-Fundraise model headed to a term-sheet negotiation; founder asks for a hostile read. Architecture map: assumptions reasonably separated, BUT the revenue engine traced back to a "Pipeline" tab last reconciled two quarters ago. Hardcode sweep: 23 constants-in-formulas; 19 benign, 3 material (a typed 0.92 "gross margin uplift" nobody could source; two Q3 plugs where model met reality and reality lost), 1 blocker — a growth formula overridden for exactly the four quarters shown in the deck's chart, reconnecting to assumptions only after the chart's window ended. Structural pass: one broken range (new products added below a SUM's reach — revenue understated $400k, ironically favorable) and no check cells anywhere. Assumption audit: month-over-month growth at 2.7× trailing actuals, justified nowhere; sensitivity showed the raise's runway math flipped at −15% on that single input. Back-test: the model retrodicted last year 31% high. Findings shipped severity-ranked; the rebuilt v2 (assumptions sourced, plugs removed, checks visible, growth case honest + a labeled upside scenario) survived the investor's own diligence pass — their analyst's first three questions were the check-cell dashboard, the growth source, and the back-test, in that order. The four-quarter override, had it shipped, would have been found by that analyst instead.
+
+Fundraise model headed to a term-sheet negotiation; founder asks for a hostile read. Architecture map: assumptions reasonably separated, BUT the revenue engine traced back to a "Pipeline" tab last reconciled two quarters ago. Hardcode sweep: 23 constants-in-formulas; 3 material (a typed 0.92 "margin uplift" nobody could source; two Q3 plugs), 1 blocker — a growth formula overridden for exactly the four quarters shown in the deck's chart. Structural pass: one broken range (new products below a SUM's reach — revenue understated $400k, ironically favorable) and no check cells. Assumption audit: month-over-month growth at 2.7× trailing actuals, justified nowhere; sensitivity showed the raise's runway math flipped at −15% on that single input. Back-test: retrodicted last year 31% high. Findings severity-ranked; the rebuilt v2 (sourced assumptions, plugs removed, checks visible, honest growth case + labeled upside) survived the investor's own diligence — their analyst's first three questions were the check-cell dashboard, the growth source, and the back-test, in that order.
 
 ## Related skills
+
 - `budget-variance-analysis` — reality's ongoing feedback to any model.
 - `unit-economics-model` — the assumption layer models most often inflate.
-- `cash-flow-forecast` — the model type where step 5's stress matters most.
+- `cash-flow-forecast` — the model type where stress matters most.
 - `source-credibility-check` — auditing the external inputs.
