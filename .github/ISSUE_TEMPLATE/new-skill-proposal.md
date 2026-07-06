@@ -11,8 +11,13 @@ labels: skill-proposal
 
 **One-line description:**
 
-**When would Claude load this?** <!-- trigger phrases / situations -->
+**When would an agent load this?** <!-- trigger phrases + NOT-for exclusions -->
 
-**Why isn't this covered by an existing skill?** <!-- check the README index first -->
+**Pre-flight (see CONTRIBUTING.md):**
+- [ ] Searched the catalog — nearest existing skill: `___`
+- [ ] Checked open PRs/issues for duplicates
+- [ ] This isn't better served by extending an existing skill because: <!-- one sentence -->
 
-**Sketch of the workflow (3-6 bullet steps):**
+**Sketch of the workflow (3–6 bullet steps):**
+
+**The two best Rationalization rows you'd include:** <!-- excuse ↔ rebuttal; this is the anatomy's hardest section — show you can write it -->
