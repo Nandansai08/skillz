@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" role="img" aria-label="Skillz — production-grade skills for AI agents">
+  <defs>
+    <style>
+      .word { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-weight: 800; fill: #0d1117; }
+      .sub  { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-weight: 500; fill: #57606a; }
+      .pill { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 22px; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="400" fill="#ffffff"/>
+
+  <text x="60" y="185" class="word" font-size="150" letter-spacing="-4">Skillz</text>
+  <text x="1140" y="185" text-anchor="end" class="sub" font-size="30">117 skills · 14 disciplines</text>
+  <text x="60" y="248" class="sub" font-size="30">Production-grade workflows for AI agents — process over prose.</text>
+
+  <!-- pill row -->
+  <g>
+    <rect x="60"  y="300" rx="26" width="130" height="52" fill="#2f81f7"/>
+    <text x="125" y="334" text-anchor="middle" class="pill">Define</text>
+
+    <rect x="206" y="300" rx="26" width="112" height="52" fill="#fa4549"/>
+    <text x="262" y="334" text-anchor="middle" class="pill">Plan</text>
+
+    <rect x="334" y="300" rx="26" width="118" height="52" fill="#d4a72c"/>
+    <text x="393" y="334" text-anchor="middle" class="pill">Build</text>
+
+    <rect x="468" y="300" rx="26" width="128" height="52" fill="#1f883d"/>
+    <text x="532" y="334" text-anchor="middle" class="pill">Verify</text>
+
+    <rect x="612" y="300" rx="26" width="138" height="52" fill="#8250df"/>
+    <text x="681" y="334" text-anchor="middle" class="pill">Review</text>
+
+    <rect x="766" y="300" rx="26" width="108" height="52" fill="#0d9488"/>
+    <text x="820" y="334" text-anchor="middle" class="pill">Ship</text>
+
+    <rect x="890" y="300" rx="26" width="102" height="52" fill="#e16f24"/>
+    <text x="941" y="334" text-anchor="middle" class="pill">Run</text>
+
+    <rect x="1008" y="300" rx="26" width="132" height="52" fill="#0d1117"/>
+    <text x="1074" y="334" text-anchor="middle" class="pill">Loops</text>
+  </g>
+</svg>
